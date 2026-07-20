@@ -1,0 +1,289 @@
+[gd_scene load_steps=9 format=3 uid="uid://main"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/GameManager.gd" id="2_gm"]
+[ext_resource type="Script" path="res://scripts/ScoreManager.gd" id="3_score"]
+[ext_resource type="Script" path="res://scripts/EventManager.gd" id="4_event"]
+[ext_resource type="Script" path="res://scripts/DirectorAI.gd" id="5_director"]
+[ext_resource type="PackedScene" path="res://scenes/CameraView.tscn" id="6_camera"]
+[ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="7_hud"]
+[ext_resource type="PackedScene" path="res://scenes/DirectorPanel.tscn" id="8_director_panel"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.067, 0.086, 0.114, 1)
+mouse_filter = 2
+
+[node name="HUD" parent="." instance=ExtResource("7_hud")]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 1260.0
+offset_bottom = 98.0
+
+[node name="PreviewContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 116.0
+offset_right = 530.0
+offset_bottom = 506.0
+theme_override_constants/separation = 10
+
+[node name="CAM1" parent="PreviewContainer" instance=ExtResource("6_camera")]
+layout_mode = 2
+camera_id = 1
+camera_title = "CAM1 / TALK"
+preview_color = Color(0.145, 0.514, 1, 1)
+
+[node name="CAM2" parent="PreviewContainer" instance=ExtResource("6_camera")]
+layout_mode = 2
+camera_id = 2
+camera_title = "CAM2 / COOK"
+preview_color = Color(0.961, 0.604, 0.137, 1)
+
+[node name="CAM3" parent="PreviewContainer" instance=ExtResource("6_camera")]
+layout_mode = 2
+camera_id = 3
+camera_title = "CAM3 / WIDE"
+preview_color = Color(0.329, 0.776, 0.208, 1)
+
+[node name="OnAirDisplay" type="Control" parent="."]
+layout_mode = 0
+offset_left = 550.0
+offset_top = 116.0
+offset_right = 1260.0
+offset_bottom = 506.0
+
+[node name="Frame" type="ColorRect" parent="OnAirDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.125, 0.157, 0.2, 1)
+mouse_filter = 2
+
+[node name="Feed" type="ColorRect" parent="OnAirDisplay"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 704.0
+offset_bottom = 384.0
+color = Color(0.145, 0.514, 1, 1)
+mouse_filter = 2
+
+[node name="Scanline" type="ColorRect" parent="OnAirDisplay"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 318.0
+offset_right = 704.0
+offset_bottom = 384.0
+color = Color(0, 0, 0, 0.2)
+mouse_filter = 2
+
+[node name="CameraLabel" type="Label" parent="OnAirDisplay"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 360.0
+offset_bottom = 56.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 25
+text = "ON AIR  /  CAM1"
+
+[node name="StatusLabel" type="Label" parent="OnAirDisplay"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 334.0
+offset_right = 680.0
+offset_bottom = 374.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "LIVE"
+horizontal_alignment = 2
+
+[node name="ControlPanel" type="Control" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 526.0
+offset_right = 920.0
+offset_bottom = 700.0
+
+[node name="Background" type="ColorRect" parent="ControlPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.125, 0.157, 0.2, 1)
+mouse_filter = 2
+
+[node name="CAM1Button" type="Button" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 210.0
+offset_bottom = 72.0
+theme_override_font_sizes/font_size = 20
+text = "1  CAM1"
+
+[node name="CAM2Button" type="Button" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 16.0
+offset_right = 416.0
+offset_bottom = 72.0
+theme_override_font_sizes/font_size = 20
+text = "2  CAM2"
+
+[node name="CAM3Button" type="Button" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 428.0
+offset_top = 16.0
+offset_right = 622.0
+offset_bottom = 72.0
+theme_override_font_sizes/font_size = 20
+text = "3  CAM3"
+
+[node name="CMButton" type="Button" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 634.0
+offset_top = 16.0
+offset_right = 884.0
+offset_bottom = 72.0
+theme_override_font_sizes/font_size = 20
+text = "C  CM"
+
+[node name="MuteButton" type="Button" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 84.0
+offset_right = 270.0
+offset_bottom = 138.0
+theme_override_font_sizes/font_size = 18
+text = "M  MUTE: OFF"
+
+[node name="TelopButton" type="Button" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 282.0
+offset_top = 84.0
+offset_right = 536.0
+offset_bottom = 138.0
+theme_override_font_sizes/font_size = 18
+text = "T  TELOP: OFF"
+
+[node name="StatusLabel" type="Label" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 552.0
+offset_top = 88.0
+offset_right = 884.0
+offset_bottom = 136.0
+theme_override_colors/font_color = Color(0.604, 0.659, 0.722, 1)
+theme_override_font_sizes/font_size = 16
+text = "CM残り 2 / READY"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="DirectorPanel" parent="." instance=ExtResource("8_director_panel")]
+layout_mode = 0
+offset_left = 940.0
+offset_top = 526.0
+offset_right = 1260.0
+offset_bottom = 700.0
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("2_gm")
+
+[node name="ScoreManager" type="Node" parent="."]
+script = ExtResource("3_score")
+
+[node name="EventManager" type="Node" parent="."]
+script = ExtResource("4_event")
+
+[node name="DirectorAI" type="Node" parent="."]
+script = ExtResource("5_director")
+
+[node name="ResultScreen" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="ResultScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.78)
+
+[node name="ResultPanel" type="PanelContainer" parent="ResultScreen"]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 150.0
+offset_right = 890.0
+offset_bottom = 570.0
+
+[node name="ResultVBox" type="VBoxContainer" parent="ResultScreen/ResultPanel"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Title" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "放送終了"
+horizontal_alignment = 1
+
+[node name="ResultScore" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "TOTAL SCORE  000000"
+horizontal_alignment = 1
+
+[node name="ResultRating" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "視聴率  0%"
+horizontal_alignment = 1
+
+[node name="ResultAccident" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "事故度  0%"
+horizontal_alignment = 1
+
+[node name="ResultBonus" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "安全運行ボーナス  +0"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="ResultScreen/ResultPanel/ResultVBox"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "もう一度"
