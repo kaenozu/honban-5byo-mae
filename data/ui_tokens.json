@@ -1,0 +1,78 @@
+{
+  "canvas": {
+    "width": 1280,
+    "height": 720,
+    "safe_margin": 20
+  },
+  "layout": {
+    "top_hud": {
+      "x": 20,
+      "y": 16,
+      "w": 1240,
+      "h": 82
+    },
+    "preview_grid": {
+      "x": 20,
+      "y": 116,
+      "w": 510,
+      "h": 390,
+      "gap": 10
+    },
+    "on_air": {
+      "x": 550,
+      "y": 116,
+      "w": 710,
+      "h": 390
+    },
+    "controls": {
+      "x": 20,
+      "y": 526,
+      "w": 900,
+      "h": 174
+    },
+    "director": {
+      "x": 940,
+      "y": 526,
+      "w": 320,
+      "h": 174
+    }
+  },
+  "colors": {
+    "surface": "#11161D",
+    "panel": "#202833",
+    "text": "#F7F9FC",
+    "muted": "#9AA8B8",
+    "cam1": "#2583FF",
+    "cam2": "#F59A23",
+    "cam3": "#54C635",
+    "cm": "#8E46D8",
+    "danger": "#E93434",
+    "warning": "#FFB020",
+    "success": "#45C96B",
+    "rating": "#78D84B",
+    "incident": "#FFB020"
+  },
+  "typography": {
+    "family_preferred": "Noto Sans CJK JP",
+    "title_px": 42,
+    "hud_label_px": 18,
+    "hud_value_px": 34,
+    "button_px": 24,
+    "warning_px": 22,
+    "caption_px": 20,
+    "body_px": 16
+  },
+  "motion": {
+    "camera_switch_ms": 120,
+    "button_press_ms": 80,
+    "warning_pulse_ms": 700,
+    "meter_change_ms": 250,
+    "accident_shake_ms": 220
+  },
+  "accessibility": {
+    "minimum_text_contrast": "4.5:1",
+    "warning_not_color_only": true,
+    "keyboard_focus_visible": true,
+    "safe_flash_hz_max": 3
+  }
+}
