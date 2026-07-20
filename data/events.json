@@ -1,0 +1,54 @@
+[
+  {
+    "id": "E03_VOICE",
+    "camera": 1,
+    "time": 7,
+    "solution": "mute",
+    "warning_duration": 3.0,
+    "accident_duration": 4.0,
+    "aftermath_duration": 2.0,
+    "severity": 15,
+    "rating_bonus": 4,
+    "label": "E03 声量巨大化",
+    "description": "司会者の声だけが巨大化"
+  },
+  {
+    "id": "E11_WIND",
+    "camera": 2,
+    "time": 27,
+    "solution": "switch",
+    "warning_duration": 3.0,
+    "accident_duration": 5.0,
+    "aftermath_duration": 3.0,
+    "severity": 12,
+    "rating_bonus": 3,
+    "label": "E11 強風",
+    "description": "スタジオに強風が吹き込む"
+  },
+  {
+    "id": "E01_HORSE",
+    "camera": 1,
+    "time": 47,
+    "solution": "switch",
+    "warning_duration": 3.0,
+    "accident_duration": 4.0,
+    "aftermath_duration": 3.0,
+    "severity": 13,
+    "rating_bonus": 5,
+    "label": "E01 馬乱入",
+    "description": "馬がスタジオを横断"
+  },
+  {
+    "id": "E06_EXPLOSION",
+    "camera": 2,
+    "time": 67,
+    "solution": "cm",
+    "warning_duration": 3.0,
+    "accident_duration": 4.0,
+    "aftermath_duration": 3.0,
+    "severity": 18,
+    "rating_bonus": 6,
+    "label": "E06 鍋爆発",
+    "description": "鍋が盛大に爆発"
+  }
+]
