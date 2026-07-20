@@ -13,10 +13,11 @@ enum GameState { IDLE, PLAYING, ENDED }
 
 const GAME_DURATION := 90.0
 const CM_COOLDOWN_DURATION := 10.0
+const INITIAL_RATING := 40
 
 var time_left: float = GAME_DURATION
 var score: int = 0
-var rating: int = 0
+var rating: int = INITIAL_RATING
 var accident: int = 0
 var current_camera: int = 1
 var cm_count: int = 2
@@ -43,22 +44,23 @@ func _process(delta: float) -> void:
 
 
 func start_game() -> void:
-    time_left = GAME_DURATION
-    score = 0
-    rating = 0
-    accident = 0
-    current_camera = 1
-    cm_count = 2
-    cm_cooldown = 0.0
+    _reset_values()
+    game_state = GameState.PLAYING
+    _emit_full_state()
+
+
+func reset_for_restart() -> void:
+    _reset_values()
+    game_state = GameState.IDLE
+    _emit_full_state()
+
+
+func reset_event_modes() -> void:
+    if not is_muted and not is_telop_on:
+        return
+
     is_muted = false
     is_telop_on = false
-    game_state = GameState.PLAYING
-
-    score_changed.emit()
-    camera_changed.emit(current_camera)
-    rating_changed.emit()
-    accident_changed.emit()
-    cm_changed.emit()
     mode_changed.emit()
 
 
@@ -87,20 +89,20 @@ func use_cm() -> bool:
 
 func toggle_mute() -> bool:
     if game_state != GameState.PLAYING:
-        return is_muted
+        return false
 
     is_muted = not is_muted
     mode_changed.emit()
-    return is_muted
+    return true
 
 
 func toggle_telop() -> bool:
     if game_state != GameState.PLAYING:
-        return is_telop_on
+        return false
 
     is_telop_on = not is_telop_on
     mode_changed.emit()
-    return is_telop_on
+    return true
 
 
 func add_score(value: int) -> void:
@@ -124,3 +126,24 @@ func end_game() -> void:
 
     game_state = GameState.ENDED
     game_ended.emit()
+
+
+func _reset_values() -> void:
+    time_left = GAME_DURATION
+    score = 0
+    rating = INITIAL_RATING
+    accident = 0
+    current_camera = 1
+    cm_count = 2
+    cm_cooldown = 0.0
+    is_muted = false
+    is_telop_on = false
+
+
+func _emit_full_state() -> void:
+    score_changed.emit()
+    camera_changed.emit(current_camera)
+    rating_changed.emit()
+    accident_changed.emit()
+    cm_changed.emit()
+    mode_changed.emit()

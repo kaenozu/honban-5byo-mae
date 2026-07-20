@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://main"]
+[gd_scene load_steps=10 format=3 uid="uid://main"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scripts/GameManager.gd" id="2_gm"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://scenes/CameraView.tscn" id="6_camera"]
 [ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="7_hud"]
 [ext_resource type="PackedScene" path="res://scenes/DirectorPanel.tscn" id="8_director_panel"]
+[ext_resource type="PackedScene" path="res://scenes/StartScreen.tscn" id="9_start_screen"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -96,6 +97,32 @@ offset_bottom = 384.0
 color = Color(0, 0, 0, 0.2)
 mouse_filter = 2
 
+[node name="IncidentOverlay" type="ColorRect" parent="OnAirDisplay"]
+visible = false
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 704.0
+offset_bottom = 384.0
+color = Color(1, 0.72, 0.08, 0.32)
+mouse_filter = 2
+
+[node name="IncidentIcon" type="Label" parent="OnAirDisplay"]
+visible = false
+layout_mode = 0
+offset_left = 180.0
+offset_top = 105.0
+offset_right = 530.0
+offset_bottom = 270.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.85)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 42
+text = "INCIDENT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CameraLabel" type="Label" parent="OnAirDisplay"]
 layout_mode = 0
 offset_left = 24.0
@@ -111,14 +138,92 @@ text = "ON AIR  /  CAM1"
 
 [node name="StatusLabel" type="Label" parent="OnAirDisplay"]
 layout_mode = 0
-offset_left = 24.0
-offset_top = 334.0
+offset_left = 350.0
+offset_top = 20.0
 offset_right = 680.0
-offset_bottom = 374.0
+offset_bottom = 54.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 18
 text = "LIVE"
 horizontal_alignment = 2
+
+[node name="MuteBadge" type="Label" parent="OnAirDisplay"]
+visible = false
+layout_mode = 0
+offset_left = 478.0
+offset_top = 68.0
+offset_right = 680.0
+offset_bottom = 108.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.85)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 18
+text = "音声ミュート中"
+horizontal_alignment = 2
+
+[node name="TelopBar" type="ColorRect" parent="OnAirDisplay"]
+visible = false
+layout_mode = 0
+offset_left = 6.0
+offset_top = 326.0
+offset_right = 704.0
+offset_bottom = 384.0
+color = Color(0.02, 0.04, 0.08, 0.9)
+mouse_filter = 2
+
+[node name="Text" type="Label" parent="OnAirDisplay/TelopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_right = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "本番5秒前　生放送中"
+vertical_alignment = 1
+
+[node name="CMCard" type="Control" parent="OnAirDisplay"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="ColorRect" parent="OnAirDisplay/CMCard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.94, 0.19, 0.23, 1)
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="OnAirDisplay/CMCard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.35)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 64
+text = "CM"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ControlPanel" type="Control" parent="."]
 layout_mode = 0
@@ -238,52 +343,71 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.78)
+color = Color(0, 0, 0, 0.82)
 
 [node name="ResultPanel" type="PanelContainer" parent="ResultScreen"]
 layout_mode = 0
-offset_left = 390.0
-offset_top = 150.0
-offset_right = 890.0
-offset_bottom = 570.0
+offset_left = 180.0
+offset_top = 42.0
+offset_right = 1100.0
+offset_bottom = 678.0
 
 [node name="ResultVBox" type="VBoxContainer" parent="ResultScreen/ResultPanel"]
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="Title" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 32
 text = "放送終了"
 horizontal_alignment = 1
 
 [node name="ResultScore" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 25
 text = "TOTAL SCORE  000000"
 horizontal_alignment = 1
 
 [node name="ResultRating" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "視聴率  0%"
+theme_override_font_sizes/font_size = 19
+text = "視聴率  40%"
 horizontal_alignment = 1
 
 [node name="ResultAccident" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 19
 text = "事故度  0%"
 horizontal_alignment = 1
 
 [node name="ResultBonus" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 text = "安全運行ボーナス  +0"
 horizontal_alignment = 1
 
+[node name="BreakdownTitle" type="Label" parent="ResultScreen/ResultPanel/ResultVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.88, 1)
+theme_override_font_sizes/font_size = 18
+text = "事故別内訳"
+
+[node name="EventResultsScroll" type="ScrollContainer" parent="ResultScreen/ResultPanel/ResultVBox"]
+custom_minimum_size = Vector2(0, 290)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="EventResults" type="VBoxContainer" parent="ResultScreen/ResultPanel/ResultVBox/EventResultsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
 [node name="RestartButton" type="Button" parent="ResultScreen/ResultPanel/ResultVBox"]
-custom_minimum_size = Vector2(0, 56)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "もう一度"
+
+[node name="StartScreen" parent="." instance=ExtResource("9_start_screen")]
+layout_mode = 1

@@ -5,12 +5,10 @@ class_name HUD
 @onready var score_label: Label = $ScoreValue
 @onready var rating_label: Label = $RatingValue
 @onready var accident_label: Label = $AccidentValue
+@onready var gm: GameManager = get_parent().get_node("GameManager") as GameManager
 
-var gm: GameManager = null
 
-
-func bind_game_manager(manager: GameManager) -> void:
-    gm = manager
+func _ready() -> void:
     gm.score_changed.connect(update_labels)
     gm.rating_changed.connect(update_labels)
     gm.accident_changed.connect(update_labels)

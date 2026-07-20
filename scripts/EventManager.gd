@@ -9,6 +9,7 @@ signal event_ended(event: TVEvent)
 @onready var score_manager: ScoreManager = get_parent().get_node("ScoreManager") as ScoreManager
 
 var events: Array[TVEvent] = []
+var event_results: Array[Dictionary] = []
 var timeline: Array[Dictionary] = []
 var elapsed: float = 0.0
 var current_event: TVEvent = null
@@ -17,6 +18,7 @@ var event_index: int = 0
 
 func _ready() -> void:
     load_events()
+    gm.game_ended.connect(_on_game_ended)
 
 
 func load_events() -> void:
@@ -63,6 +65,8 @@ func spawn_event(data: Dictionary) -> void:
         _resolve_as_failure()
         _finish_current_event()
 
+    gm.reset_event_modes()
+
     var event := TVEvent.new()
     event.id = str(data.get("id", "unknown"))
     event.camera = clampi(int(data.get("camera", 1)), 1, 3)
@@ -76,6 +80,7 @@ func spawn_event(data: Dictionary) -> void:
     event.description = str(data.get("description", ""))
     event.phase = TVEvent.Phase.WARNING
     event.timer = 0.0
+    event.reaction_time = 0.0
 
     current_event = event
     events.append(event)
@@ -84,6 +89,9 @@ func spawn_event(data: Dictionary) -> void:
 
 func update_event(delta: float) -> void:
     current_event.timer += delta
+
+    if current_event.phase == TVEvent.Phase.WARNING or current_event.phase == TVEvent.Phase.ACCIDENT:
+        current_event.reaction_time += delta
 
     match current_event.phase:
         TVEvent.Phase.WARNING:
@@ -119,29 +127,45 @@ func resolve_current_event(action: String) -> bool:
     if not success:
         return false
 
-    current_event.resolved = true
-    current_event.success = true
-    score_manager.resolve_event(true, current_event)
-    current_event.phase = TVEvent.Phase.AFTERMATH
-    current_event.timer = 0.0
-    event_phase_changed.emit(current_event)
+    _complete_resolution(true, action, current_event.phase)
     return true
 
 
 func cleanup() -> void:
     current_event = null
     events.clear()
+    event_results.clear()
     event_index = 0
     elapsed = 0.0
+    score_manager.reset_for_restart()
+
+
+func get_event_results() -> Array[Dictionary]:
+    var copied_results: Array[Dictionary] = []
+    for result: Dictionary in event_results:
+        copied_results.append(result.duplicate(true))
+    return copied_results
 
 
 func _resolve_as_failure() -> void:
     if current_event == null or current_event.resolved:
         return
 
+    _complete_resolution(false, "none", current_event.phase)
+
+
+func _complete_resolution(success: bool, action: String, resolved_phase: int) -> void:
     current_event.resolved = true
-    current_event.success = false
-    score_manager.resolve_event(false, current_event)
+    current_event.success = success
+    current_event.action = action
+    current_event.resolved_phase = TVEvent.phase_to_string(resolved_phase)
+
+    var deltas := score_manager.resolve_event(success, current_event, resolved_phase)
+    current_event.score_delta = int(deltas.get("score_delta", 0))
+    current_event.rating_delta = int(deltas.get("rating_delta", 0))
+    current_event.accident_delta = int(deltas.get("accident_delta", 0))
+    event_results.append(current_event.to_result_dictionary())
+
     current_event.phase = TVEvent.Phase.AFTERMATH
     current_event.timer = 0.0
     event_phase_changed.emit(current_event)
@@ -154,3 +178,11 @@ func _finish_current_event() -> void:
     var finished := current_event
     current_event = null
     event_ended.emit(finished)
+
+
+func _on_game_ended() -> void:
+    if current_event == null:
+        return
+
+    _resolve_as_failure()
+    _finish_current_event()

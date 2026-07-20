@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/StartScreen.gd" id="1_start"]
+
+[node name="StartScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_start")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.027, 0.043, 0.94)
+mouse_filter = 0
+
+[node name="Panel" type="PanelContainer" parent="Dim"]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 132.0
+offset_right = 950.0
+offset_bottom = 588.0
+
+[node name="VBox" type="VBoxContainer" parent="Dim/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="Title" type="Label" parent="Dim/Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 46
+text = "本番5秒前"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Dim/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.73, 0.78, 0.86, 1)
+theme_override_font_sizes/font_size = 20
+text = "4つの事故を処理して、90秒の放送を守れ"
+horizontal_alignment = 1
+
+[node name="CountdownLabel" type="Label" parent="Dim/Panel/VBox"]
+custom_minimum_size = Vector2(0, 132)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.29, 0.24, 1)
+theme_override_font_sizes/font_size = 72
+text = "READY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartButton" type="Button" parent="Dim/Panel/VBox"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "放送開始"
+
+[node name="Hint" type="Label" parent="Dim/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.6, 0.68, 1)
+theme_override_font_sizes/font_size = 16
+text = "1/2/3: カメラ  C: CM  M: MUTE  T: TELOP"
+horizontal_alignment = 1
